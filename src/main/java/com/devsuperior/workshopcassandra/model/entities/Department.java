@@ -16,6 +16,14 @@ public class Department {
 	public Department() {
 	
 	}
+	
+	
+
+
+	public Department(UUID id, String name) {	
+		this.id = id;
+		this.name = name;
+	}
 
 
 	public UUID getId() {
