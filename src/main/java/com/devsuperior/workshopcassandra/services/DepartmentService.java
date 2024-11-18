@@ -1,7 +1,8 @@
 package com.devsuperior.workshopcassandra.services;
 
 import java.util.List;
-import java.util.stream.Collector;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.devsuperior.workshopcassandra.model.dto.DepartmentDTO;
 import com.devsuperior.workshopcassandra.model.entities.Department;
 import com.devsuperior.workshopcassandra.repositories.DepartmentRepository;
+import com.devsuperior.workshopcassandra.services.exceptions.ResourceNotFoundException;
 
 @Service
 public class DepartmentService {
@@ -20,6 +22,14 @@ public class DepartmentService {
 		
 		List<Department> list = repository.findAll();
 		return list.stream().map(x -> new DepartmentDTO(x)).collect(Collectors.toList());
+	}
+	
+	public DepartmentDTO findById(UUID id) {
+		
+		Optional<Department> resultado = repository.findById(id);
+		Department entidade = resultado.orElseThrow(() -> new ResourceNotFoundException("ID não encontrado"));
+		return new DepartmentDTO(entidade);
+		
 	}
 	
 }
