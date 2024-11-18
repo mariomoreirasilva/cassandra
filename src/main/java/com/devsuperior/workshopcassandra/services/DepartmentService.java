@@ -24,10 +24,16 @@ public class DepartmentService {
 		return list.stream().map(x -> new DepartmentDTO(x)).collect(Collectors.toList());
 	}
 	
+	private Department buscaPorId(UUID id) {
+		Optional<Department> resultado = repository.findById(id);
+		return resultado.orElseThrow(() -> new ResourceNotFoundException("ID não encontrado"));
+		
+	}
+	
 	public DepartmentDTO findById(UUID id) {
 		
-		Optional<Department> resultado = repository.findById(id);
-		Department entidade = resultado.orElseThrow(() -> new ResourceNotFoundException("ID não encontrado"));
+		//Optional<Department> resultado = repository.findById(id);
+		Department entidade = buscaPorId(id);
 		return new DepartmentDTO(entidade);
 		
 	}
@@ -35,6 +41,14 @@ public class DepartmentService {
 	public DepartmentDTO inserir(DepartmentDTO dto) {
 		Department entity = new Department();
 		entity.setId(UUID.randomUUID());
+		copiaDTOparaEntidade(entity, dto);
+		entity = repository.save(entity);
+		return new DepartmentDTO(entity);
+	}
+	
+	
+	public DepartmentDTO atualizar(UUID id,DepartmentDTO dto) {
+		Department entity = buscaPorId(id);		
 		copiaDTOparaEntidade(entity, dto);
 		entity = repository.save(entity);
 		return new DepartmentDTO(entity);
