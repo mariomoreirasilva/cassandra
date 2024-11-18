@@ -32,4 +32,21 @@ public class DepartmentService {
 		
 	}
 	
+	public DepartmentDTO inserir(DepartmentDTO dto) {
+		Department entity = new Department();
+		entity.setId(UUID.randomUUID());
+		copiaDTOparaEntidade(entity, dto);
+		entity = repository.save(entity);
+		return new DepartmentDTO(entity);
+	}
+
+	public void copiaDTOparaEntidade(Department entity, DepartmentDTO dto) {
+		entity.setName(dto.getName());
+		
+	}
+
+
+	
+	
+	
 }
