@@ -53,6 +53,14 @@ public class DepartmentService {
 		entity = repository.save(entity);
 		return new DepartmentDTO(entity);
 	}
+	
+	public void deleteById(UUID id) {
+		if(!repository.existsById(id)) {
+			throw new ResourceNotFoundException("Id inexsistente");
+		}
+		
+		repository.deleteById(id);
+	}
 
 	public void copiaDTOparaEntidade(Department entity, DepartmentDTO dto) {
 		entity.setName(dto.getName());
