@@ -35,4 +35,12 @@ public class ProductController {
 		return ResponseEntity.ok(list);				
 	}
 		
+	@GetMapping(value = "/description")
+	public ResponseEntity<List<ProductDTO>> procuraPorDescricao(@RequestParam(name = "text" , defaultValue = "")
+																	String text){
+		List<ProductDTO> list = service.procurarPorDescription(text);
+		return ResponseEntity.ok(list);				
+	}
+	
+	
 }
